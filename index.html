@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rayyan Qureshi | Web Developer Portfolio</title>
+    <style>
+        :root { --tech-blue: #1a73e8; --dark-slate: #202124; --light-bg: #f8f9fa; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light-bg); color: var(--dark-slate); text-align: center; }
+        .screen { min-height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; }
+        #screen1 { display: flex; }
+        h1 { color: var(--tech-blue); font-size: 2.5rem; margin-bottom: 10px; }
+        .btn { background: var(--tech-blue); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: #1557b0; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        /* Logic Boxes */
+        .tech-box { border: 2px solid #ddd; background: white; padding: 20px; border-radius: 10px; width: 320px; margin: 20px; }
+        .feature-tag { display: inline-block; background: #e8f0fe; color: #1967d2; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; margin: 5px; }
+        
+        /* Scratch Logic */
+        #scratch-container { position: relative; width: 300px; height: 150px; background: #eee; margin: 20px auto; border-radius: 8px; overflow: hidden; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
+        .hidden-code { display: flex; align-items: center; justify-content: center; height: 100%; font-family: monospace; color: #444; }
+
+        /* Finale Animation */
+        .particle { position: absolute; bottom: -50px; animation: rise 4s linear forwards; font-size: 20px; }
+        @keyframes rise { to { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <section id="screen1" class="screen">
+        <div style="font-size: 60px;">💻</div>
+        <h1>Interactive Web Project</h1>
+        <p>A demonstration of JavaScript logic and UI/UX animations.</p>
+        <p style="color: #666;">Developed by: <b>Rayyan Qureshi</b></p>
+        <button class="btn" onclick="nextScreen(2)">Launch Prototype</button>
+    </section>
+
+    <section id="screen2" class="screen">
+        <h2>Logic Module: Event Handling</h2>
+        <div class="tech-box">
+            <div style="font-size: 50px; cursor: pointer;" onclick="nextScreen(3)">⚙️</div>
+            <p>Tap the gear icon to trigger the next function call.</p>
+        </div>
+        <div class="feature-tag">JavaScript Functions</div>
+        <div class="feature-tag">DOM Manipulation</div>
+    </section>
+
+    <section id="screen3" class="screen">
+        <h2>Module: Interactive Data Masking</h2>
+        <p>Using Canvas API to reveal hidden layers.</p>
+        <div id="scratch-container">
+            <div class="hidden-code">STATUS: SUCCESS <br> CODE: 200 OK</div>
+            <canvas id="scratch-canvas" width="300" height="150"></canvas>
+        </div>
+        <button class="btn" onclick="nextScreen(4)">View Algorithm Output</button>
+    </section>
+
+    <section id="screen4" class="screen">
+        <h1>Project Summary</h1>
+        <div class="tech-box" style="text-align: left; width: 80%; max-width: 500px;">
+            <p><b>Achievement:</b> Integrated complex animations with user-triggered events.</p>
+            <p><b>Tools Used:</b> HTML5, CSS3, JavaScript ES6.</p>
+            <p><b>Future Scope:</b> Building full-stack scalable web applications.</p>
+        </div>
+        <button class="btn" onclick="triggerEffect()">Execute Final Animation</button>
+        <p style="margin-top: 50px; font-weight: bold; color: var(--tech-blue);">© 2024 Rayyan Qureshi - Future Developer</p>
+    </section>
+
+    <script>
+        function nextScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById('screen' + num).style.display = 'flex';
+            if(num === 3) initScratch();
+        }
+
+        function initScratch() {
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#888';
+            ctx.fillRect(0, 0, 300, 150);
+            ctx.globalCompositeOperation = 'destination-out';
+
+            const scratch = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+            };
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('touchmove', scratch);
+        }
+
+        function triggerEffect() {
+            const icons = ['✨', '🚀', '💻', '⚡'];
+            for(let i=0; i<40; i++) {
+                const el = document.createElement('div');
+                el.className = 'particle';
+                el.innerText = icons[Math.floor(Math.random() * icons.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 4000);
+            }
+        }
+    </script>
+</body>
+</html>
